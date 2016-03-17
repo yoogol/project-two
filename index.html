@@ -7,16 +7,42 @@
   </head>
   <body>
     <div class="searchBox">
-
-    </div>
-    <div class="container">
-
     </div>
 
-  <script id="widget" type="text/x-handlebars-template">
+    <div class="labels">
+      <div class="container-jobs">Keywords</div>
+      <div class="container-meetup">Meetups</div>
+      <div class="container-courses">Online Courses</div>
+    </div>
+    <div class="containers">
+      <div id="container-jobs" class="container-jobs"></div>
+      <div id="container-meetup" class="container-meetup"></div>
+      <div id="container-courses" class="container-courses"></div>
+    </div>
 
+
+  <script id="widget-meetup" type="text/x-handlebars-template">
+    {{#each this}}
+      <h2>{{name}}</h2>
+      <p>{{{description}}}</p>
+      <p><strong>Link:</strong> {{event_url}}</p>
+      <p><strong>Fee:</strong> ${{fee.amount}}</p>
+      <p><strong>Organizer</strong> {{group.name}}</p>
+      <p><strong>Spots taken</strong>{{yes_rsvp_count}} out of {{rsvp_limit}}</p>
+      <p><strong>Where:</strong> {{venue.name}}: {{vanue.address_1}}, {{velune.city}}, {{venue.state}}</p>
+    {{/each}}
+    <br> <br>
   </script>
 
+  <script id="widget-courses" type="text/x-handlebars-template">
+    {{#each this}}
+    <h2>{{title}}: {{subtitle}}</h2>
+    <p>{{short_summary}}</p>
+    <p>{{level}}</p>
+    <img src={{image}}>
+    <a href={{homepage}}>Link</a>
+    {{/each}}
+  </script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0/handlebars.js"></script>
   <script type="text/javascript" src="APIkeys.js"> </script>

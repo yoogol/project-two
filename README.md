@@ -11,3 +11,10 @@ If am able to get a list of skill keywords from #1, I would like to let users ex
 Step 3. (If I have time) Search for relevant online courses
 API: Coursera.com
 Same as with meetups, users can explore relevant free online classes to start building relevant skills.
+
+
+
+Improvements:
+- display a message if there is nothing available
+- make sure words from the same position don't repeat
+- have it display % of words, not numbers
