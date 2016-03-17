@@ -1,4 +1,4 @@
-console.log("main is connected");
+
 
 //****************************************************//
 //*******Global Variables
@@ -24,13 +24,21 @@ $(document).ready(function() {
     var searchTerm = $jobSearchInput.val().toLowerCase();
     // callIndeed($jobSearchInput.val());
     callGitHubJobs(searchTerm);
-    callMeetUp(searchTerm);
+    meetUpLocation(searchTerm);
     callCoursera(searchTerm);
     $jobSearchInput.val("");
     $('#container-jobs').empty();
     $('#container-meetup').empty();
     $('#container-courses').empty();
   })
+  $('#clickmeabout').click(function(event) {
+    console.log("clickmeabout clicked");
+    if ($('#about').hasClass("hidden")) {
+      $('#about').removeClass("hidden");
+    } else {
+      $('#about').addClass("hidden");
+    }
+  });
 }) // end of window onload
 
 
@@ -52,13 +60,42 @@ var callGitHubJobs = function(searchTerm) {
 
 
 //***** call MEETUP for data **************//
-var callMeetUp = function(searchTerm) {
+var meetUpLocation = function(searchTerm) {
+  navigator.geolocation.getCurrentPosition(function(pos) {
+    console.log(pos);
+    var myLat = pos.coords.latitude;
+    var myLon = pos.coords.longitude;
+    console.log(myLat, myLon);
+    callMeetUpCoord(myLat, myLon, searchTerm);
+  },
+  function(error) {
+    var zipcode = prompt("Please specify your zipcode for Meetup search");
+    console.log(zipcode);
+    callMeetUpZip(zipcode, searchTerm);
+  });
+
+}
+
+var callMeetUpCoord = function(myLat, myLon, searchTerm) {
   $.ajax({
-    url: 'https://api.meetup.com/2/open_events.json?topic=' + searchTerm + '&&country=US&time=,1w&limited_events=true&category=34&key=' + meetUpAPI,
+    url: 'https://api.meetup.com/2/open_events.json?text=' + searchTerm + '&lat=' + myLat + '&lon=' + myLon + '&time=,1w&limited_events=true&category=34&key=' + meetUpAPI,
     dataType: 'jsonp'
   }).done(function(meetUpResult) {
-    console.log("returning meetUpResult " + meetUpResult);
-    console.log(meetUpResult.results);
+    // console.log("returning meetUpResult " + meetUpResult);
+    // console.log(meetUpResult.results);
+    displayMeetUpResult(meetUpResult.results);
+  }).fail(function(gitHubResult){
+    console.log(meetUpResult);
+  });
+}
+
+var callMeetUpZip = function(zip, searchTerm) {
+  $.ajax({
+    url: 'https://api.meetup.com/2/open_events.json?text=' + searchTerm + '&zip=' + zip + '&time=,1w&limited_events=true&category=34&key=' + meetUpAPI,
+    dataType: 'jsonp'
+  }).done(function(meetUpResult) {
+    // console.log("returning meetUpResult " + meetUpResult);
+    // console.log(meetUpResult.results);
     displayMeetUpResult(meetUpResult.results);
   }).fail(function(gitHubResult){
     console.log(meetUpResult);
@@ -67,6 +104,27 @@ var callMeetUp = function(searchTerm) {
 
 //***** call COURSERA for data **************//
 var callCoursera = function(searchTerm) {
+  // $.ajax ({
+  //   url: "https://www.udacity.com/public-api/v0/courses",
+  //   dataType: "jsonp"
+  // }).done(function(data){
+  //   console.log(data);
+  //   var courseraResult = data.courses.filter(function(obj) {
+  //     // console.log("filtering");
+  //     // console.log(obj);
+  //     // console.log(obj.syllabus);
+  //     if (obj.summary.toLowerCase().split(" ").indexOf(searchTerm) > -1) {
+  //       return true
+  //     } else {
+  //       return false
+  //     };
+  //     console.log("returning courseraResult " + courseraResult);
+  //     console.log(courseraResult);
+  //     displayCourseraResult(courseraResult);
+  //   })
+  // }).fail(function(data) {
+  //   console.log(data);
+  // })
   $.getJSON("https://www.udacity.com/public-api/v0/courses", function(data) {
     // console.log(data.courses);
     var courseraResult = data.courses.filter(function(obj) {
@@ -79,8 +137,6 @@ var callCoursera = function(searchTerm) {
         return false
       };
     });
-    console.log("returning courseraResult " + courseraResult);
-    console.log(courseraResult);
     displayCourseraResult(courseraResult);
 });
 }
@@ -92,46 +148,50 @@ var callCoursera = function(searchTerm) {
 
 //*********Indeed.com Results***************//
 var displayIndeedResult = function(gitHubResult) {
-  console.log(gitHubResult);
-  var aggregateDescription = "";
-  for (var i = 0; i < gitHubResult.length;i++) {
-      aggregateDescription += (gitHubResult[i].description + " ");
-  };
-  var separateWords = aggregateDescription.replace(/<strong>/igm, '');
-  separateWords = separateWords.replace(/<\/strong>/igm, '');
-  separateWords = separateWords.replace(/<li>/igm, '');
-  separateWords = separateWords.replace(/<\/li>/igm, '');
-  separateWords = separateWords.replace(/<p>/igm, '');
-  separateWords = separateWords.replace(/<\/p>/igm, '');
-  separateWords = separateWords.replace(/<ul>/igm, '');
-  separateWords = separateWords.replace(/<\/ul>/igm, '');
-  separateWords = separateWords.replace(/<em>/igm, '');
-  separateWords = separateWords.replace(/<\/em>/igm, '');
-  separateWords = separateWords.replace(/[0-9]/g, '');
-  separateWords = separateWords.replace(/\W+/g, ' ');
-  separateWords = separateWords.split(" ");
-  // console.log(separateWords);
+  console.log("gitHubResult");
+  console.log(gitHubResult.length);
 
-  var wordCount = new Object();
-  for (var i = 0; i < separateWords.length; i++) {
-    var formatted = separateWords[i].toLowerCase();
-    // making sure these are not stopwords and not sincle-letter words (need to fix: C++ etc.)
-    if (stopWords.indexOf(formatted) === -1 && formatted.length !== 1) {
-      if (wordCount.hasOwnProperty(formatted)) {
-        // console.log("current word old: " + formatted);
-        wordCount[formatted] += 1;
-      } else {
-        // console.log("current word new: " + formatted);
-        wordCount[formatted] = 1;
+  if (gitHubResult.length > 0) {
+    var aggregateDescription = "";
+    for (var i = 0; i < gitHubResult.length;i++) {
+        aggregateDescription += (gitHubResult[i].description + " ");
+    };
+    var separateWords = aggregateDescription.replace(/<strong>/igm, '');
+    separateWords = separateWords.replace(/<\/strong>/igm, '');
+    separateWords = separateWords.replace(/<li>/igm, '');
+    separateWords = separateWords.replace(/<\/li>/igm, '');
+    separateWords = separateWords.replace(/<p>/igm, '');
+    separateWords = separateWords.replace(/<\/p>/igm, '');
+    separateWords = separateWords.replace(/<ul>/igm, '');
+    separateWords = separateWords.replace(/<\/ul>/igm, '');
+    separateWords = separateWords.replace(/<em>/igm, '');
+    separateWords = separateWords.replace(/<\/em>/igm, '');
+    separateWords = separateWords.replace(/[0-9]/g, '');
+    separateWords = separateWords.replace(/\W+/g, ' ');
+    separateWords = separateWords.split(" ");
+    // console.log(separateWords);
+
+    var wordCount = new Object();
+    for (var i = 0; i < separateWords.length; i++) {
+      var formatted = separateWords[i].toLowerCase();
+      // making sure these are not stopwords and not sincle-letter words (need to fix: C++ etc.)
+      if (stopWords.indexOf(formatted) === -1 && formatted.length !== 1) {
+        if (wordCount.hasOwnProperty(formatted)) {
+          // console.log("current word old: " + formatted);
+          wordCount[formatted] += 1;
+        } else {
+          // console.log("current word new: " + formatted);
+          wordCount[formatted] = 1;
+        }
       }
-    }
-  } // end of for loop
-  // console.log(wordCount);
+    } // end of for loop
+    // console.log(wordCount);
 
-  // sorting by frequency
-  var sortable = [];
-  for (var key in wordCount)
-    sortable.push([key, wordCount[key]]);
+    // sorting by frequency
+    var sortable = [];
+    for (var key in wordCount) {
+      sortable.push([key, wordCount[key]]);
+    }
     sortable.sort(function(a, b) {return b[1] - a[1]});
     //http://stackoverflow.com/questions/1069666/sorting-javascript-object-by-property-value
     // console.log(sortable);
@@ -144,13 +204,10 @@ var displayIndeedResult = function(gitHubResult) {
       $ulist.append($listi);
       // console.log($ulist);
     }
-    if ($listi.length > 0) {
-      $('#container-jobs').append($ulist);
-  } // end of if there is something to display
-  else {
+    $('#container-jobs').append($ulist);
+  } else {
     $('#container-jobs').append($('<div>').html("Ooops. No jobs found for your search. Try something else!"));
   }
-
 } // end of displayIndeedResult
 
 //*************MeetUp.com Results**************//
@@ -163,32 +220,36 @@ var displayMeetUpResult = function(meetUpResult) {
   //     return true;
   //   }
   // })
+  $('#container-meetup').append($('<div>').html("Total MeetUps found: " + meetUpResult.length));
+  console.log("meetUpResult");
+  console.log(meetUpResult.length);
+  console.log(meetUpResult);
+  meetUpResult.splice(10,1000000);
+  console.log(meetUpResult.length);
   if (meetUpResult.length > 0) {
-    var $inputLoc = $('<input>');
-    $inputLoc.placeholder = "Input your address";
-    var $buttonLoc = $('<button>');
-    $buttonLoc.html("Get My Location");
-    var $newDiv = $('<div>');
-    $newDiv.attr('id','geosearch');
-    $newDiv.append($inputLoc);
-    $newDiv.append($('<p>').html(" OR "));
-    $newDiv.append($buttonLoc);
-    $('#container-meetup').append($newDiv);
-
+    // meetUpGeolocation();
     var templateEl = $('#widget-meetup').html();
     var template = Handlebars.compile(templateEl);
     var html = template(meetUpResult);
     $('#container-meetup').append($('<div>').html(html));
   } else {
-    $('#container-meetup').append($('<div>').html("Uh-oh. No MeetUps found for your search. Maybe you should <a href='https://secure.meetup.com/create/'>organize one</a>!"));
+    $('#container-meetup').append($('<div>').html("Uh-oh. No MeetUps found for your search. Maybe you should <a href='https://secure.meetup.com/create/' target='_blank'>organize one</a>!"));
   } //end of checking whether there's anything returned
 } // end of display meetup
 
 //*************Coursera.org Results**************//
 var displayCourseraResult = function(courseraResult) {
-  // console.log(courseraResult);
-  var templateEl = $('#widget-courses').html();
-  var template = Handlebars.compile(templateEl);
-  var html = template(courseraResult);
-  $('#container-courses').html(html);
-}
+  console.log("courseraResult");
+  console.log(courseraResult.length);
+  courseraResult.splice(10,1000000);
+  console.log(courseraResult.length);
+  if (courseraResult.length > 0) {
+    $('#container-courses').append($('<div>').html("Total Udacity courses found: " + courseraResult.length));
+    var templateEl = $('#widget-courses').html();
+    var template = Handlebars.compile(templateEl);
+    var html = template(courseraResult);
+    $('#container-courses').append($('<div>').html(html));
+  } else {
+    $('#container-courses').append($('<div>').html("Unfortunately there are no courses found for your search on Udacity. Check back later or try another search!"));
+  }
+} // end of displayCourseraResult

@@ -15,15 +15,20 @@ Same as with meetups, users can explore relevant free online classes to start bu
 
 
 Improvements:
-- display a message if there is nothing available
-- meetup city/Location
-- make title of meetup/course a link
-- hyperlinks for search terms
-- make labels clearly
+[x] - display a message if there is nothing available
+[x] meetup city/Location
+[x] make title of meetup/course a link
+[x] make labels clearly
+[x] total positions/etc found...
 - add ABOUT info
+
+ALTERNATIVE DESIGN
+- hyperlinks for search terms
 - make mobile-friendly with @media
 - dropdown on number of terms to display
+
+ADVANCED:
+- make meetup show only first paragraph of description
 - make sure words from the same position don't repeat
 - have it display % of words, not numbers
-- make meetup show only first paragraph of description
 - replace regular expressions with < * >

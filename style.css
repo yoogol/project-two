@@ -3,9 +3,25 @@
   box-sizing: border-box;
 }
 
+* a {
+  text-decoration: none;
+  color: black;
+}
+* a:hover {
+  color: darkslategray;
+}
+
+body {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+}
+.mainwrapper {
+  margin: auto;
+}
 .about {
   height: 40px;
-  background-color: black;
+  background-color: #1B0C1E;
   background-position: right;
   background-size: cover;
   background-repeat: no-repeat;
@@ -22,8 +38,8 @@
 
 .jumbotron {
   height: 250px;
-  background-image: url(img/road.jpg);
-  background-position: center;
+  background-image: url(img/music.jpg);
+  background-position: 0% 55%;
   background-repeat: no-repeat;
   background-size: cover;
   text-align: center;
@@ -34,19 +50,20 @@
 
 .jumbotron-text {
   font-size: 2em;
-  color: white;
+  color: black;
   text-align: center;
   font-weight: bolder;
-  padding-top: 70px;
+  padding-top: 100px;
   text-transform: uppercase;
 }
 
 .jumbotron input {
-  width: 300px;
+  width: 400px;
   text-align: center;
   margin: 20px;
-  height: 25px;
+  height: 30px;
   font-size: 1em;
+  border: 1px solid
 }
 .jumbotron button {
   display: block;
@@ -55,7 +72,7 @@
   font-weight: bolder;
   text-transform: uppercase;
   height: 20px;
-  border: 2px solid midnightblue;
+  border: 2px solid #4E3D4C;
 }
 
 /*.searchBox {
@@ -77,9 +94,7 @@
 
 #jobs {
   width: 20%;
-  margin:2px 10px 2px 10px;
-
-
+  margin:2px 10px 2px 0;
 }
 
 #meetups {
@@ -90,7 +105,7 @@
 
 #courses {
   width: 40%;
-  margin:2px 10px 2px 10px;
+  margin:2px 0 2px 10px;
 
 }
 
@@ -101,7 +116,7 @@
   text-transform: uppercase;
   padding: 5px;
   margin-bottom: 10px;
-  background-color: black;
+  background-color: #1E120C;
   border: 1px solid lightgrey;
   color: white;
 }
@@ -153,4 +168,25 @@ img {
 #geosearch button, #geosearch input, #geosearch p {
   display: inline;
   margin: 0 10px 0 10px;
+}
+
+.hidden {
+  display: none;
+}
+#about {
+  position: absolute;
+  background-color: #0D2C3F;
+
+  opacity: 0.7;
+  color: white;
+  top: 40px;
+  right: 0%;
+
+/*#000824
+#001C45
+
+#00FFFB*/
+  width: 30%;
+  height: 300px;
+  text-align: center;
 }
