@@ -9,7 +9,7 @@ var $jobSearchLabel = $('<label>');
 $jobSearchLabel.html("Your Next Career Move: ");
 var $jobSearchInput = $('<input>');
 $jobSearchInput.attr('type','text')
-$jobSearchInput.attr('placeholder','Job Title');
+$jobSearchInput.attr('placeholder','type job title or skill');
 $jobSearchLabel.append($jobSearchInput);
 var $submitButton = $('<button>');
 $submitButton.html("Let's Go!");
@@ -18,8 +18,8 @@ $submitButton.html("Let's Go!");
 //Interface
 //****************************************************//
 $(document).ready(function() {
-  $('.searchBox').append($jobSearchLabel);
-  $('.searchBox').append($submitButton);
+  $('.jumbotron').append($jobSearchInput);
+  $('.jumbotron').append($submitButton);
   $submitButton.click(function(event) {
     var searchTerm = $jobSearchInput.val().toLowerCase();
     // callIndeed($jobSearchInput.val());
@@ -28,6 +28,8 @@ $(document).ready(function() {
     callCoursera(searchTerm);
     $jobSearchInput.val("");
     $('#container-jobs').empty();
+    $('#container-meetup').empty();
+    $('#container-courses').empty();
   })
 }) // end of window onload
 
@@ -42,8 +44,6 @@ var callGitHubJobs = function(searchTerm) {
     url: 'https://jobs.github.com/positions.json?description=' + searchTerm, // page added because you can go further to next page https://jobs.github.com/positions.json?description=python&location=sf&full_time=true
     dataType: 'jsonp'
   }).done(function(gitHubResult) {
-    console.log("returning gitHubResult " + gitHubResult);
-    console.log(gitHubResult);
     displayIndeedResult(gitHubResult);
   }).fail(function(gitHubResult){
     console.log(gitHubResult);
@@ -92,13 +92,11 @@ var callCoursera = function(searchTerm) {
 
 //*********Indeed.com Results***************//
 var displayIndeedResult = function(gitHubResult) {
-  // console.log(indeedResult);
-  // console.log("working on wordcloud");
+  console.log(gitHubResult);
   var aggregateDescription = "";
   for (var i = 0; i < gitHubResult.length;i++) {
       aggregateDescription += (gitHubResult[i].description + " ");
   };
-  // console.log(aggregateDescription);
   var separateWords = aggregateDescription.replace(/<strong>/igm, '');
   separateWords = separateWords.replace(/<\/strong>/igm, '');
   separateWords = separateWords.replace(/<li>/igm, '');
@@ -113,6 +111,7 @@ var displayIndeedResult = function(gitHubResult) {
   separateWords = separateWords.replace(/\W+/g, ' ');
   separateWords = separateWords.split(" ");
   // console.log(separateWords);
+
   var wordCount = new Object();
   for (var i = 0; i < separateWords.length; i++) {
     var formatted = separateWords[i].toLowerCase();
@@ -145,7 +144,13 @@ var displayIndeedResult = function(gitHubResult) {
       $ulist.append($listi);
       // console.log($ulist);
     }
-    $('#container-jobs').append($ulist);
+    if ($listi.length > 0) {
+      $('#container-jobs').append($ulist);
+  } // end of if there is something to display
+  else {
+    $('#container-jobs').append($('<div>').html("Ooops. No jobs found for your search. Try something else!"));
+  }
+
 } // end of displayIndeedResult
 
 //*************MeetUp.com Results**************//
@@ -158,11 +163,26 @@ var displayMeetUpResult = function(meetUpResult) {
   //     return true;
   //   }
   // })
-  var templateEl = $('#widget-meetup').html();
-  var template = Handlebars.compile(templateEl);
-  var html = template(meetUpResult);
-  $('#container-meetup').html(html);
-}
+  if (meetUpResult.length > 0) {
+    var $inputLoc = $('<input>');
+    $inputLoc.placeholder = "Input your address";
+    var $buttonLoc = $('<button>');
+    $buttonLoc.html("Get My Location");
+    var $newDiv = $('<div>');
+    $newDiv.attr('id','geosearch');
+    $newDiv.append($inputLoc);
+    $newDiv.append($('<p>').html(" OR "));
+    $newDiv.append($buttonLoc);
+    $('#container-meetup').append($newDiv);
+
+    var templateEl = $('#widget-meetup').html();
+    var template = Handlebars.compile(templateEl);
+    var html = template(meetUpResult);
+    $('#container-meetup').append($('<div>').html(html));
+  } else {
+    $('#container-meetup').append($('<div>').html("Uh-oh. No MeetUps found for your search. Maybe you should <a href='https://secure.meetup.com/create/'>organize one</a>!"));
+  } //end of checking whether there's anything returned
+} // end of display meetup
 
 //*************Coursera.org Results**************//
 var displayCourseraResult = function(courseraResult) {

@@ -6,18 +6,38 @@
     <title></title>
   </head>
   <body>
-    <div class="searchBox">
+    <header>
+    <div class="about">
+      About This App
     </div>
+    <div class="jumbotron">
+      <div class="jumbotron-text">
+        Your New Tech Career Starts Here
+      </div>
+    </div>
+    </header>
 
-    <div class="labels">
-      <div class="container-jobs">Keywords</div>
-      <div class="container-meetup">Meetups</div>
-      <div class="container-courses">Online Courses</div>
-    </div>
-    <div class="containers">
-      <div id="container-jobs" class="container-jobs"></div>
-      <div id="container-meetup" class="container-meetup"></div>
-      <div id="container-courses" class="container-courses"></div>
+
+    <!-- <div class="searchBox">
+    </div> -->
+
+    <div class="wrapper">
+      <div id="jobs">
+        <div class="container-jobs label">Resume Keywords</div>
+        <div class="container-jobs explanation">Top Words Mentioned in Job Blurbs on <a href="https://jobs.github.com/">GitHub Jobs</a></div>
+        <div id="container-jobs" class="container"></div>
+      </div>
+      <div id="meetups">
+          <div class="container-meetup label">MeetUps To Attend</div>
+          <div class="container-meetup explanation">Upcoming Related Meetings from <a href="http://www.meetup.com/">MeetUp.com</a> </div>
+          <div id="container-meetup" class="container"></div>
+      </div>
+      <div id="courses">
+        <div class="container-courses label">Online Courses</div>
+        <div class="container-courses explanation">Free Online Classes from <a href="https://www.udacity.com/">Udacity.com</a></div>
+        <div id="container-courses" class="container"></div>
+      </div>
+
     </div>
 
 

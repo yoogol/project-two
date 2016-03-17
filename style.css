@@ -1,47 +1,156 @@
 * {
   font-family: sans-serif;
+  box-sizing: border-box;
 }
 
-.searchBox {
-  text-align: center;
-  margin: 20px;
+.about {
+  height: 40px;
+  background-color: black;
+  background-position: right;
+  background-size: cover;
+  background-repeat: no-repeat;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  color: white;
+  padding-right: 30px;
 }
 
-.labels {
-  font-weight: bold;
-  font-size: 1.3em;
+.about div {
+
+}
+
+.jumbotron {
+  height: 250px;
+  background-image: url(img/road.jpg);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.jumbotron-text {
+  font-size: 2em;
+  color: white;
+  text-align: center;
+  font-weight: bolder;
+  padding-top: 70px;
   text-transform: uppercase;
 }
-.containers, .labels {
+
+.jumbotron input {
+  width: 300px;
+  text-align: center;
+  margin: 20px;
+  height: 25px;
+  font-size: 1em;
+}
+.jumbotron button {
+  display: block;
+  text-align: center;
+  width: 100px;
+  font-weight: bolder;
+  text-transform: uppercase;
+  height: 20px;
+  border: 2px solid midnightblue;
+}
+
+/*.searchBox {
+  text-align: center;
+  margin: 20px;
+}*/
+
+.wrapper {
+  margin-top: 20px;
+  width: 100%;
   display: flex;
   justify-content: space-between;
+}
+
+.wrapper div {
+  width: 100%;
+  word-wrap: break-word;
+}
+
+#jobs {
+  width: 20%;
+  margin:2px 10px 2px 10px;
+
 
 }
 
-.containers div, .labels div {
+#meetups {
+  width: 40%;
+  margin:2px 10px 2px 10px;
+
+}
+
+#courses {
+  width: 40%;
+  margin:2px 10px 2px 10px;
+
+}
+
+.label {
+  ont-weight: bold;
+  font-size: 1em;
+  text-align: center;
+  text-transform: uppercase;
+  padding: 5px;
+  margin-bottom: 10px;
+  background-color: black;
+  border: 1px solid lightgrey;
+  color: white;
+}
+
+.explanation {
+  font-size: 0.7em;
+  padding: 5px;
+  text-align: center;
+  margin-bottom: 10px;
+  border: 1px solid lightgrey;
+  height: 40px;
+}
+
+#container-jobs {
+  background-color: lightgrey;
+}
+#container-meetup {
+  background-color: lightgrey;
+}
+
+#container-courses {
+  background-color: lightgrey;
+}
+
+.container {
+  width: 100%;
   background: lightgrey;
   border: 1px solid grey;
-  margin:2px 10px 2px 10px;
   padding: 5px 8px 5px 10px;
 }
 
-.container-jobs {
-  width: 200px
+
+#container-jobs ul{
+
+  padding: 0;
 }
 
-.container-meetup {
-  width: 500px
-}
-
-.container-jobs li {
-  list-style: none
-}
-
-.container-courses {
-  width: 400px;
+ul li {
+  list-style: none;
 }
 
 img {
   width: 100%;
+}
+
+#geosearch {
+  text-align: center;
+}
+#geosearch button, #geosearch input, #geosearch p {
+  display: inline;
+  margin: 0 10px 0 10px;
 }
