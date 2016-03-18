@@ -133,7 +133,7 @@ var callMeetUpCoord = function(myLat, myLon, searchTerm) {
   }).done(function(meetUpResult) {
     // console.log("returning meetUpResult " + meetUpResult);
     // console.log(meetUpResult.results);
-    displayMeetUpResult(meetUpResult.results);
+    displayMeetUpResult(meetUpResult.results, searchTerm);
   }).fail(function(gitHubResult){
     console.log(meetUpResult);
   });
@@ -146,7 +146,7 @@ var callMeetUpZip = function(zip, searchTerm) {
   }).done(function(meetUpResult) {
     // console.log("returning meetUpResult " + meetUpResult);
     // console.log(meetUpResult.results);
-    displayMeetUpResult(meetUpResult.results);
+    displayMeetUpResult(meetUpResult.results, searchTerm);
   }).fail(function(gitHubResult){
     console.log(meetUpResult);
   });
@@ -168,7 +168,7 @@ var callCoursera = function(searchTerm) {
         return false
       };
     });
-    displayCourseraResult(courseraResult);
+    displayCourseraResult(courseraResult, searchTerm);
 });
 }
 
@@ -248,8 +248,8 @@ var displayIndeedResult = function(gitHubResult) {
 } // end of displayIndeedResult
 
 //*************MeetUp.com Results**************//
-var displayMeetUpResult = function(meetUpResult) {
-  // stupid workaround to get rid of a misidentified startup for japanese language
+var displayMeetUpResult = function(meetUpResult, searchTerm) {
+  // stupid workaround to get rid of a misidentified startup for japanese language in js meetups
   meetUpResult = meetUpResult.filter(function(obj){
     if (obj.name.split(' ').indexOf("Japanese") > -1) {
       return false;
@@ -257,14 +257,27 @@ var displayMeetUpResult = function(meetUpResult) {
       return true;
     }
   })
+
   var $newDiv = $('<div>');
   $newDiv.attr("class","total");
-  $('#container-meetup').append($newDiv.html("Total MeetUps found: " + meetUpResult.length));
+  $('#container-meetup').append($newDiv.html("Total MeetUps Found About " + searchTerm.toUpperCase() + ": " + meetUpResult.length));
   console.log("meetUpResult");
   console.log(meetUpResult.length);
   console.log(meetUpResult);
+  // showing only top ten results
   meetUpResult.splice(10,1000000);
   console.log(meetUpResult.length);
+  //solution to display limited description
+  for (var i = 0; i < meetUpResult.length; i++) {
+    var reducedDescription = meetUpResult[i].description.split(" ");
+    console.log(reducedDescription);
+    reducedDescription.splice(25,1000000);
+    reducedDescription.join(" ");
+    reducedDescription += "...";
+    console.log(reducedDescription);
+    meetUpResult[i].description = reducedDescription
+  }
+
   if (meetUpResult.length > 0) {
     // meetUpGeolocation();
     var templateEl = $('#widget-meetup').html();
@@ -277,7 +290,7 @@ var displayMeetUpResult = function(meetUpResult) {
 } // end of display meetup
 
 //*************Coursera.org Results**************//
-var displayCourseraResult = function(courseraResult) {
+var displayCourseraResult = function(courseraResult, searchTerm) {
   console.log("courseraResult");
   console.log(courseraResult.length);
   courseraResult.splice(10,1000000);
@@ -285,7 +298,7 @@ var displayCourseraResult = function(courseraResult) {
   if (courseraResult.length > 0) {
     var $newDiv = $('<div>');
     $newDiv.attr("class","total");
-    $('#container-courses').append($newDiv.html("Total Udacity courses found: " + courseraResult.length));
+    $('#container-courses').append($newDiv.html("Total Udacity Courses Found About " + searchTerm.toUpperCase() + ": " + courseraResult.length));
     var templateEl = $('#widget-courses').html();
     var template = Handlebars.compile(templateEl);
     var html = template(courseraResult);

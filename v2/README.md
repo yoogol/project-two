@@ -27,7 +27,8 @@ Improvements:
 ALTERNATIVE DESIGN
 [x] hyperlinks for search terms
 [x] hide explanations
-- make meetup show only first paragraph of description
+- make meetup show only first paragraph of description - REMOVE COMMAS
+- allow to go to another page of results
 - make mobile-friendly with @media
 - time of meetups
 - waiting message for ajax
