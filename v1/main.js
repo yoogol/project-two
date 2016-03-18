@@ -31,9 +31,9 @@ $(document).ready(function() {
     meetUpLocation(searchTerm);
     callCoursera(searchTerm);
     $jobSearchInput.val("");
-    $('#container-jobs').empty();
-    $('#container-meetup').empty();
-    $('#container-courses').empty();
+
+
+
   })
   $('#clickmeabout').click(function(event) {
     console.log("clickmeabout clicked");
@@ -59,6 +59,7 @@ $(document).ready(function() {
 
 //***** call GITHUBJOBS for data ***********//
 var callGitHubJobs = function(searchTerm) {
+  $('#container-jobs').empty();
   $.ajax({
     url: 'https://jobs.github.com/positions.json?description=' + searchTerm, // page added because you can go further to next page https://jobs.github.com/positions.json?description=python&location=sf&full_time=true
     dataType: 'jsonp'
@@ -72,6 +73,7 @@ var callGitHubJobs = function(searchTerm) {
 
 //***** call MEETUP for data **************//
 var meetUpLocation = function(searchTerm) {
+  $('#container-meetup').empty();
   navigator.geolocation.getCurrentPosition(function(pos) {
     console.log(pos);
     var myLat = pos.coords.latitude;
@@ -115,27 +117,8 @@ var callMeetUpZip = function(zip, searchTerm) {
 
 //***** call COURSERA for data **************//
 var callCoursera = function(searchTerm) {
-  // $.ajax ({
-  //   url: "https://www.udacity.com/public-api/v0/courses",
-  //   dataType: "jsonp"
-  // }).done(function(data){
-  //   console.log(data);
-  //   var courseraResult = data.courses.filter(function(obj) {
-  //     // console.log("filtering");
-  //     // console.log(obj);
-  //     // console.log(obj.syllabus);
-  //     if (obj.summary.toLowerCase().split(" ").indexOf(searchTerm) > -1) {
-  //       return true
-  //     } else {
-  //       return false
-  //     };
-  //     console.log("returning courseraResult " + courseraResult);
-  //     console.log(courseraResult);
-  //     displayCourseraResult(courseraResult);
-  //   })
-  // }).fail(function(data) {
-  //   console.log(data);
-  // })
+  console.log("callCoursera serach term: " + searchTerm);
+  $('#container-courses').empty();
   $.getJSON("https://www.udacity.com/public-api/v0/courses", function(data) {
     // console.log(data.courses);
     var courseraResult = data.courses.filter(function(obj) {
@@ -161,7 +144,6 @@ var callCoursera = function(searchTerm) {
 var displayIndeedResult = function(gitHubResult) {
   console.log("gitHubResult");
   console.log(gitHubResult.length);
-
   if (gitHubResult.length > 0) {
     var aggregateDescription = "";
     for (var i = 0; i < gitHubResult.length;i++) {
@@ -180,24 +162,20 @@ var displayIndeedResult = function(gitHubResult) {
     separateWords = separateWords.replace(/[0-9]/g, '');
     separateWords = separateWords.replace(/\W+/g, ' ');
     separateWords = separateWords.split(" ");
-    // console.log(separateWords);
-
     var wordCount = new Object();
+
     for (var i = 0; i < separateWords.length; i++) {
       var formatted = separateWords[i].toLowerCase();
       // making sure these are not stopwords and not sincle-letter words (need to fix: C++ etc.)
       if (stopWords.indexOf(formatted) === -1 && formatted.length !== 1) {
         if (wordCount.hasOwnProperty(formatted)) {
-          // console.log("current word old: " + formatted);
           wordCount[formatted] += 1;
         } else {
           // console.log("current word new: " + formatted);
           wordCount[formatted] = 1;
-        }
-      }
+        } // end of if statement
+      } // end of if statement
     } // end of for loop
-    // console.log(wordCount);
-
     // sorting by frequency
     var sortable = [];
     for (var key in wordCount) {
@@ -205,17 +183,25 @@ var displayIndeedResult = function(gitHubResult) {
     }
     sortable.sort(function(a, b) {return b[1] - a[1]});
     //http://stackoverflow.com/questions/1069666/sorting-javascript-object-by-property-value
-    // console.log(sortable);
     // publishing as a list
-    $ulist = $('<ul>');
+    $ulist_word = $('<ul>');
     for (var i = 0; i < 50; i++) {
-      var $listi = $('<li>');
-      $listi.html(sortable[i][0] + ":    " + sortable[i][1]);
-      // console.log($listi);
-      $ulist.append($listi);
-      // console.log($ulist);
+      console.log(parseInt(sortable[i][1]));
+      // var percent = parseInt(sortable[i][1]) / parseInt(totalWordsFound) * 100;
+      var $listi_word = $('<li>');
+      $listi_word.attr('id', sortable[i][0]);
+      $listi_word.html(sortable[i][0] + " (" + sortable[i][1] + ")");
+      $listi_word.click(function(event) {
+        meetUpLocation(sortable[i][0]);
+        callCoursera(sortable[i][0]);
+      })
+      $ulist_word.append($listi_word);
+      // var $listi_count = $('<li>');
+      // $listi_count.html();
+      // $ulist_count.append($listi_count);
     }
-    $('#container-jobs').append($ulist);
+    $('#container-jobs').append($ulist_word);
+
   } else {
     $('#container-jobs').append($('<div>').html("Ooops. No jobs found for your search. Try something else!"));
   }

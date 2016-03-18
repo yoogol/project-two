@@ -149,11 +149,13 @@ body {
   font-weight: bold;
   /*margin-bottom: 10px;*/
   /*border: 1px solid lightgrey;*/
-  height: 60px;
+  min-height: 60px;
 }
 
 #container-jobs {
   background-color: lightgrey;
+  /*display: flex;
+  justify-content: space-between;*/
 }
 #container-meetup {
   background-color: lightgrey;
@@ -173,6 +175,19 @@ body {
 
 #container-jobs ul{
   padding: 0;
+}
+
+#container-jobs li:hover {
+  cursor: pointer;
+  color: teal;
+}
+
+#container-jobs-words {
+  background: yellow;
+}
+
+#container-jobs-count {
+  background: red;
 }
 
 ul li {
