@@ -18,11 +18,15 @@ $submitButton.html("Let's Go!");
 //Interface
 //****************************************************//
 $(document).ready(function() {
-  $('.jumbotron').append($jobSearchInput);
-  $('.jumbotron').append($submitButton);
+  $('#jumbotron').append($jobSearchInput);
+  $('#jumbotron').append($submitButton);
   $submitButton.click(function(event) {
     var searchTerm = $jobSearchInput.val().toLowerCase();
     // callIndeed($jobSearchInput.val());
+    $('#wrapper').removeClass("hidden");
+    $('#jumbotron').css("height", "250px");
+    $('#jumbotron').css("background-position", "0% 55%");
+    $('#jumbotron-text').addClass("clicked");
     callGitHubJobs(searchTerm);
     meetUpLocation(searchTerm);
     callCoursera(searchTerm);
@@ -39,6 +43,13 @@ $(document).ready(function() {
       $('#about').addClass("hidden");
     }
   });
+  $('#closeabout').click(function(event) {
+    if ($('#about').hasClass("hidden")) {
+      $('#about').removeClass("hidden");
+    } else {
+      $('#about').addClass("hidden");
+    }
+  })
 }) // end of window onload
 
 
@@ -213,13 +224,13 @@ var displayIndeedResult = function(gitHubResult) {
 //*************MeetUp.com Results**************//
 var displayMeetUpResult = function(meetUpResult) {
   // stupid workaround to get rid of a misidentified startup for japanese language
-  // meetUpResult = meetUpResult.filter(function(obj){
-  //   if (obj.description.split(' ').indexOf("Japanese") > -1) {
-  //     return false;
-  //   } else {
-  //     return true;
-  //   }
-  // })
+  meetUpResult = meetUpResult.filter(function(obj){
+    if (obj.name.split(' ').indexOf("Japanese") > -1) {
+      return false;
+    } else {
+      return true;
+    }
+  })
   $('#container-meetup').append($('<div>').html("Total MeetUps found: " + meetUpResult.length));
   console.log("meetUpResult");
   console.log(meetUpResult.length);

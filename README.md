@@ -20,7 +20,9 @@ Improvements:
 [x] make title of meetup/course a link
 [x] make labels clearly
 [x] total positions/etc found...
-- add ABOUT info
+[x] add ABOUT info
+[x] format about info
+[x] make background take fullscreen (650)
 
 ALTERNATIVE DESIGN
 - hyperlinks for search terms
@@ -28,6 +30,7 @@ ALTERNATIVE DESIGN
 - dropdown on number of terms to display
 
 ADVANCED:
+- connect more apis
 - make meetup show only first paragraph of description
 - make sure words from the same position don't repeat
 - have it display % of words, not numbers
