@@ -13,6 +13,9 @@ Other specs of the app:
 - the app uses two sets of Handlebars templates to display meetup and udacity events
 - the uses a form to get search input from the user
 
+# API key note:
+- API key for meetup.com is stored locally and can't be accessed via online version of the app
+
 # Completed app improvements:
 - [x] display a message if no information is available
 - [x] request user location for meetups from the user or from the browser
