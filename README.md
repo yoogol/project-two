@@ -27,7 +27,7 @@ Other specs of the app:
 - [x] add message to show while API call is being process so that the user knows something is happening
 
 
-# Further planned improvement:
+# Further planned improvements:
 - add pages to meetup results. Currently loads all results at once.
   - for udacity there are no additional pages as it calls the full list of Courses
   - for meetups there are multiple pages that can be displayed by using page= and offset= properties
