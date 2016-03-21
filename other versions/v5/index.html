@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="style.css" media="screen" title="no title" charset="utf-8">
+    <link href='https://fonts.googleapis.com/css?family=PT+Sans' rel='stylesheet' type='text/css'>
+    <title></title>
+  </head>
+  <body>
+    <div id="about" class="hidden">
+      <p>
+      This app was created by <a href="https://www.linkedin.com/in/yuliashea" target="_blank">Yulia Shea</a>, a Web Development Immersive Student at <a href="https://generalassemb.ly/" target="_blank">General Assembly</a> in New York City.<br><br>
+      The App analyzes and displays results from multiple APIs: <a href="https://jobs.github.com/">GitHub Jobs</a>, <a href="http://www.meetup.com/" target='_blank'>MeetUp.com</a> and <a href="https://www.udacity.com/" target='_blank'>Udacity.com</a>, to provide users a one-point access to a varierty of resources necessary for their carrer development in tech industry.
+      <br><br>
+      You can find me on Twitter here: <a href=https://twitter.com/yoogol target="_blank">@yoogol</a>.
+    </p>
+    <div id="closeabout">
+      x
+    </div>
+    </div>
+    <div class="mainwrapper">
+
+    <header>
+    <div class="about">
+      <span id="clickmeabout">About This App</span>
+
+    </div>
+    <div id="jumbotron">
+      <div id="jumbotron-text">
+        Your Tech Career Starts Here
+      </div>
+      <p> Find the most relevant <strong>resume keywords</strong>, <strong>meetups</strong> and <strong>online courses</strong> for your career.</p>
+    </div>
+    </header>
+
+
+    <!-- <div class="searchBox">
+    </div> -->
+
+    <div id="wrapper" class="hidden">
+      <div id="jobs">
+        <div class="container-jobs label">Top Job Keywords
+          <span class="clickinfo">
+            <strong>[info]</strong>
+          </span>
+        </div>
+        <div id="container-jobs" class="container">
+          <strong style="text-align:center; font-family:monospace">Loading data...</strong>
+          <!-- <div id="container-jobs-words">
+
+          </div>
+          <div id="container-jobs-count">
+
+          </div> -->
+        </div>
+      </div>
+      <div class="meetupsANDcourses">
+        <div id="meetups">
+            <div class="container-meetup label">MeetUps
+              <span class="clickinfo">
+                <strong>[info]</strong>
+              </span>
+            </div>
+            <div id="container-meetup" class="container">
+              <strong style="text-align:center; font-family:monospace">Loading data...</strong>
+            </div>
+        </div>
+        <div id="courses">
+          <div class="container-courses label">Online Classes
+            <span class="clickinfo">
+              <strong>[info]</strong>
+            </span>
+          </div>
+          <div id="container-courses" class="container">
+            <strong style="text-align:center; font-family:monospace">Loading data...</strong>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+    </div>
+
+
+
+
+  <script id="widget-meetup" type="text/x-handlebars-template">
+    {{#each this}}
+      <h3><a href="{{event_url}}" target="_blank"><u>{{name}}</u></a></h3>
+      <p>{{{description}}}</p>
+      {{#if fee.amount}}
+      <p><strong>Fee:</strong> ${{fee.amount}}</p>
+      {{else}}
+      <p><strong>Fee:</strong> free</p>
+      {{/if}}
+      <p><strong>Time:</strong> {{time}}</p>
+      <p><strong>Organizer</strong> {{group.name}}</p>
+      {{#if yes_rsvp_count}}
+      <p><strong>Total Spots</strong> {{yes_rsvp_count}}
+      {{else}}
+      {{/if}}
+      {{#if rsvp_limit}}
+       (Already taken: {{rsvp_limit}})</p>
+       {{else}}
+       {{/if}}
+      {{#if venue.name}}
+      <p><strong>Venue:</strong> {{venue.name}}</p>
+      {{else}}
+      <p><strong>Venue:</strong> Unknown</p>
+      {{/if}}
+      {{#if venue.address_1}}
+      <p><strong>Address:</strong> {{venue.address_1}}, {{venue.city}}, {{venue.state}}</p>
+      {{else}}
+      <p><strong>Address:</strong> Unknown</p>
+      {{/if}}
+      <hr><hr>
+    {{/each}}
+    <br> <br>
+  </script>
+
+  <script id="widget-courses" type="text/x-handlebars-template">
+    {{#each this}}
+    <h3><a href={{homepage}} target="_blank"><u>{{title}}</u></a></h3>
+    <strong>{{subtitle}}</strong>
+    <p>{{short_summary}}</p>
+    <p>Level: {{level}}</p>
+    <img src={{image}}>
+    <hr><hr>
+    {{/each}}
+  </script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0/handlebars.js"></script>
+  <script type="text/javascript" src="APIkeys.js"> </script>
+  <script type="text/javascript" src="main.js"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCQHLDiweluMcOTwx29Prqlo-Ex2R32fmM"
+  async defer></script>
+
+  </script>
+  </body>
+</html>

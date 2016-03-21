@@ -31,3 +31,25 @@
 //     console.log('Enter was pressed');
 // }
 // });
+
+// $.ajax ({
+//   url: "https://www.udacity.com/public-api/v0/courses",
+//   dataType: "jsonp"
+// }).done(function(data){
+//   console.log(data);
+//   var courseraResult = data.courses.filter(function(obj) {
+//     // console.log("filtering");
+//     // console.log(obj);
+//     // console.log(obj.syllabus);
+//     if (obj.summary.toLowerCase().split(" ").indexOf(searchTerm) > -1) {
+//       return true
+//     } else {
+//       return false
+//     };
+//     console.log("returning courseraResult " + courseraResult);
+//     console.log(courseraResult);
+//     displayCourseraResult(courseraResult);
+//   })
+// }).fail(function(data) {
+//   console.log(data);
+// })

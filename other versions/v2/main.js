@@ -31,9 +31,6 @@ $(document).ready(function() {
     meetUpLocation(searchTerm);
     callCoursera(searchTerm);
     $jobSearchInput.val("");
-
-
-
   })
   $('#clickmeabout').click(function(event) {
     console.log("clickmeabout clicked");
@@ -49,6 +46,46 @@ $(document).ready(function() {
     } else {
       $('#about').addClass("hidden");
     }
+  })
+  // adding info clickability on labels
+  $('#courses .clickinfo').click(function(event){
+    var $newDiv = $('<div>');
+    $newDiv.attr("class", "explain")
+    $newDiv.html("Top keywords mentioned in job blurbs on <a href='https://jobs.github.com/'>GitHub Jobs</a> you can use in your resume to make it more relevant. Click on words to see corresponding meetups and courses. <br><br> [<u>Close</u>]");
+    $("body").append($newDiv.hide().fadeIn(3000));
+    $newDiv.click(function(event) {
+      console.log("click added")
+      if($newDiv.length) {
+        console.log("remove element");
+        $newDiv.remove();
+      }
+    })
+  })
+  $('#meetups .clickinfo').click(function(event){
+    var $newDiv = $('<div>');
+    $newDiv.attr("class", "explain")
+    $newDiv.html("Upcoming Related Meetings from <a href='http://www.meetup.com/' target='_blank'>MeetUp.com</a> to attend to grow your network. <br><br> [<u>Close</u>]");
+    $("body").append($newDiv.hide().fadeIn(3000));
+    $newDiv.click(function(event) {
+      console.log("click added")
+      if($newDiv.length) {
+        console.log("remove element");
+        $newDiv.remove();
+      }
+    })
+  })
+  $('#jobs .clickinfo').click(function(event){
+    var $newDiv = $('<div>');
+    $newDiv.attr("class", "explain")
+    $newDiv.html("Top keywords mentioned in job blurbs on <a href='https://jobs.github.com/'>GitHub Jobs</a> you can use in your resume to make it more relevant. <br> Click on words to see corresponding meetups and courses. <br><br> [<u>Close</u>]");
+    $("body").append($newDiv.hide().fadeIn(3000));
+    $newDiv.click(function(event) {
+      console.log("click added")
+      if($newDiv.length) {
+        console.log("remove element");
+        $newDiv.remove();
+      }
+    })
   })
 }) // end of window onload
 
@@ -96,7 +133,7 @@ var callMeetUpCoord = function(myLat, myLon, searchTerm) {
   }).done(function(meetUpResult) {
     // console.log("returning meetUpResult " + meetUpResult);
     // console.log(meetUpResult.results);
-    displayMeetUpResult(meetUpResult.results);
+    displayMeetUpResult(meetUpResult.results, searchTerm);
   }).fail(function(gitHubResult){
     console.log(meetUpResult);
   });
@@ -109,7 +146,7 @@ var callMeetUpZip = function(zip, searchTerm) {
   }).done(function(meetUpResult) {
     // console.log("returning meetUpResult " + meetUpResult);
     // console.log(meetUpResult.results);
-    displayMeetUpResult(meetUpResult.results);
+    displayMeetUpResult(meetUpResult.results, searchTerm);
   }).fail(function(gitHubResult){
     console.log(meetUpResult);
   });
@@ -131,7 +168,7 @@ var callCoursera = function(searchTerm) {
         return false
       };
     });
-    displayCourseraResult(courseraResult);
+    displayCourseraResult(courseraResult, searchTerm);
 });
 }
 
@@ -186,20 +223,23 @@ var displayIndeedResult = function(gitHubResult) {
     // publishing as a list
     $ulist_word = $('<ul>');
     for (var i = 0; i < 50; i++) {
-      console.log(parseInt(sortable[i][1]));
       // var percent = parseInt(sortable[i][1]) / parseInt(totalWordsFound) * 100;
       var $listi_word = $('<li>');
       $listi_word.attr('id', sortable[i][0]);
       $listi_word.html(sortable[i][0] + " (" + sortable[i][1] + ")");
       $listi_word.click(function(event) {
-        meetUpLocation(sortable[i][0]);
-        callCoursera(sortable[i][0]);
+        console.log(this.id);
+        meetUpLocation(this.id);
+        callCoursera(this.id);
       })
       $ulist_word.append($listi_word);
       // var $listi_count = $('<li>');
       // $listi_count.html();
       // $ulist_count.append($listi_count);
     }
+    var $newDiv = $('<div>');
+    $newDiv.attr("class","total");
+    $('#container-jobs').append($newDiv.html("Click any words to search"));
     $('#container-jobs').append($ulist_word);
 
   } else {
@@ -208,8 +248,8 @@ var displayIndeedResult = function(gitHubResult) {
 } // end of displayIndeedResult
 
 //*************MeetUp.com Results**************//
-var displayMeetUpResult = function(meetUpResult) {
-  // stupid workaround to get rid of a misidentified startup for japanese language
+var displayMeetUpResult = function(meetUpResult, searchTerm) {
+  // stupid workaround to get rid of a misidentified startup for japanese language in js meetups
   meetUpResult = meetUpResult.filter(function(obj){
     if (obj.name.split(' ').indexOf("Japanese") > -1) {
       return false;
@@ -217,12 +257,24 @@ var displayMeetUpResult = function(meetUpResult) {
       return true;
     }
   })
-  $('#container-meetup').append($('<div>').html("Total MeetUps found: " + meetUpResult.length));
+
+  var $newDiv = $('<div>');
+  $newDiv.attr("class","total");
+  $('#container-meetup').append($newDiv.html("Total MeetUps Found About " + searchTerm.toUpperCase() + ": " + meetUpResult.length));
   console.log("meetUpResult");
   console.log(meetUpResult.length);
   console.log(meetUpResult);
+  // showing only top ten results
   meetUpResult.splice(10,1000000);
   console.log(meetUpResult.length);
+  //solution to display limited description
+  for (var i = 0; i < meetUpResult.length; i++) {
+    var reducedDescription = meetUpResult[i].description.slice(0,500);
+    reducedDescription += "...";
+    console.log(reducedDescription);
+    meetUpResult[i].description = reducedDescription;
+  }
+
   if (meetUpResult.length > 0) {
     // meetUpGeolocation();
     var templateEl = $('#widget-meetup').html();
@@ -235,13 +287,15 @@ var displayMeetUpResult = function(meetUpResult) {
 } // end of display meetup
 
 //*************Coursera.org Results**************//
-var displayCourseraResult = function(courseraResult) {
+var displayCourseraResult = function(courseraResult, searchTerm) {
   console.log("courseraResult");
   console.log(courseraResult.length);
   courseraResult.splice(10,1000000);
   console.log(courseraResult.length);
   if (courseraResult.length > 0) {
-    $('#container-courses').append($('<div>').html("Total Udacity courses found: " + courseraResult.length));
+    var $newDiv = $('<div>');
+    $newDiv.attr("class","total");
+    $('#container-courses').append($newDiv.html("Total Udacity Courses Found About " + searchTerm.toUpperCase() + ": " + courseraResult.length));
     var templateEl = $('#widget-courses').html();
     var template = Handlebars.compile(templateEl);
     var html = template(courseraResult);

@@ -25,13 +25,19 @@ Improvements:
 [x] make background take fullscreen (650)
 
 ALTERNATIVE DESIGN
-- hyperlinks for search terms
+[x] hyperlinks for search terms
+[x] hide explanations
+[x] make meetup show only first paragraph of description [x] REMOVE COMMAS
+[x] time of meetups
+[x] waiting message for ajax
+- make a wordcloud (canvas?) http://wordcram.org/
+- allow to go to another page of results
 - make mobile-friendly with @media
 - dropdown on number of terms to display
 
 ADVANCED:
 - connect more apis
-- make meetup show only first paragraph of description
+
 - make sure words from the same position don't repeat
 - have it display % of words, not numbers
 - replace regular expressions with < * >

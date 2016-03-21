@@ -1,5 +1,5 @@
 * {
-  font-family: sans-serif;
+  font-family: 'PT Sans', sans-serif;
   box-sizing: border-box;
 }
 
@@ -19,6 +19,7 @@ body {
 .mainwrapper {
   margin: auto;
   background: white;
+  min-width: 600px;
 }
 .about {
   height: 40px;
@@ -44,7 +45,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  transition-duration: 4s;
+  transition-duration: 2s;
 }
 
 
@@ -55,7 +56,7 @@ body {
   font-weight: bolder;
   padding-top: 320px;
   text-transform: uppercase;
-  transition-duration: 4s;
+  transition-duration: 2s;
 }
 
 #jumbotron-text.clicked {
@@ -138,6 +139,19 @@ body {
   background-color: #1E120C;
   border: 1px solid lightgrey;
   color: white;
+  border-radius: 30%;
+}
+
+.label span {
+  font-size: 0.5em;
+}
+
+.clickinfo {
+  text-transform: lowercase;
+}
+
+.clickinfo:hover {
+  cursor: pointer;
 }
 
 .explanation {
@@ -152,24 +166,56 @@ body {
   min-height: 60px;
 }
 
+.explain {
+  background: white;
+  width: 300px;
+  min-height: 100px;
+  padding: 5px;
+  border-radius: 0.3;
+  position: absolute;
+  top: 15%;
+  right: 1%;
+  border: 3px solid #1B0C1E;
+  text-align: center;
+}
+
+.explain:hover {
+  cursor: pointer;
+}
+/*.expl-courses>p, .expl-meetups>p {
+  width: 50%;
+  margin:auto;
+  background: blue;
+  min-height: 70px;
+}*/
+
+.explanation.hidden {
+  display: none;
+}
+
 #container-jobs {
   background-color: lightgrey;
+  min-height: 500px;
   /*display: flex;
   justify-content: space-between;*/
 }
+
 #container-meetup {
   background-color: lightgrey;
+  min-height: 500px;
 }
 
 #container-courses {
   background-color: lightgrey;
+  min-height: 500px;
 }
 
 .container {
   /*width: 100%;*/
   background: lightgrey;
-  border: 1px solid grey;
+  /*border: 1px solid grey;*/
   padding: 5px 8px 5px 10px;
+
 }
 
 
@@ -192,6 +238,14 @@ body {
 
 ul li {
   list-style: none;
+}
+
+ul li:before{
+   content: '';
+   display: inline-block;
+   height: 10px;
+   width: 10px;
+   background-image: url('img/checkmark2.png')
 }
 
 img {
@@ -258,4 +312,10 @@ img {
 
 #closeabout {
   cursor: pointer;
+}
+
+.total {
+  text-align: center;
+  font-weight: bold;
+  text-decoration: underline;
 }

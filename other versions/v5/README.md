@@ -27,17 +27,20 @@ Improvements:
 ALTERNATIVE DESIGN
 [x] hyperlinks for search terms
 [x] hide explanations
-- make meetup show only first paragraph of description - REMOVE COMMAS
-- allow to go to another page of results
+[x] make meetup show only first paragraph of description [x] REMOVE COMMAS
+[x] time of meetups
+[x] waiting message for ajax
+- add more GitHub jobs data:
+ for gitHub it is possible to accumulate data from several pages before analyzing. The default request returns only 50 Jobs
 - make mobile-friendly with @media
-- time of meetups
-- waiting message for ajax
-- make a wordcloud (canvas?) http://wordcram.org/
-- dropdown on number of terms to display
+
 
 ADVANCED:
+- allow to go to another page of results
+ -- for udacity there are no additional pages as it calls the full list of Courses
+ -- for meetups there are multiple pages that can be displayed by using page= and offset= properties
 - connect more apis
-
+- make a wordcloud (canvas?) http://wordcram.org/
 - make sure words from the same position don't repeat
 - have it display % of words, not numbers
 - replace regular expressions with < * >

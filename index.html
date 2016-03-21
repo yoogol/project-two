@@ -3,6 +3,7 @@
   <head>
     <meta charset="utf-8">
     <link rel="stylesheet" href="style.css" media="screen" title="no title" charset="utf-8">
+    <link href='https://fonts.googleapis.com/css?family=PT+Sans' rel='stylesheet' type='text/css'>
     <title></title>
   </head>
   <body>
@@ -28,6 +29,7 @@
       <div id="jumbotron-text">
         Your Tech Career Starts Here
       </div>
+      <p> Find the most relevant <strong>resume keywords</strong>, <strong>meetups</strong> and <strong>online courses</strong> for your career.</p>
     </div>
     </header>
 
@@ -37,26 +39,43 @@
 
     <div id="wrapper" class="hidden">
       <div id="jobs">
-        <div class="container-jobs label">Top Job Keywords</div>
-        <div class="container-jobs explanation expl-jobs">Top keywords mentioned in job blurbs on <a href="https://jobs.github.com/">GitHub Jobs</a> to use in resume to attract employers' attention</div>
+        <div class="container-jobs label">Top Job Keywords
+          <span class="clickinfo">
+            <strong>[info]</strong>
+          </span>
+        </div>
         <div id="container-jobs" class="container">
-          <div id="container-jobs-words">
+          <strong style="text-align:center; font-family:monospace">Loading data...</strong>
+          <!-- <div id="container-jobs-words">
 
           </div>
           <div id="container-jobs-count">
 
-          </div>
+          </div> -->
         </div>
       </div>
-      <div id="meetups">
-          <div class="container-meetup label">MeetUps</div>
-          <div class="container-meetup explanation expl-meetups">Upcoming Related Meetings from <a href="http://www.meetup.com/" target='_blank'>MeetUp.com</a> to attend to grow your network </div>
-          <div id="container-meetup" class="container"></div>
-      </div>
-      <div id="courses">
-        <div class="container-courses label">Online Classes</div>
-        <div class="container-courses explanation expl-courses">Free Online Classes from <a href="https://www.udacity.com/" target='_blank'>Udacity.com</a> to attend to learn new skills</div>
-        <div id="container-courses" class="container"></div>
+      <div class="meetupsANDcourses">
+        <div id="meetups">
+            <div class="container-meetup label">MeetUps
+              <span class="clickinfo">
+                <strong>[info]</strong>
+              </span>
+            </div>
+            <div id="container-meetup" class="container">
+              <strong style="text-align:center; font-family:monospace">Loading data...</strong>
+            </div>
+        </div>
+        <div id="courses">
+          <div class="container-courses label">Online Classes
+            <span class="clickinfo">
+              <strong>[info]</strong>
+            </span>
+          </div>
+          <div id="container-courses" class="container">
+            <strong style="text-align:center; font-family:monospace">Loading data...</strong>
+          </div>
+        </div>
+
       </div>
 
     </div>
@@ -67,13 +86,14 @@
 
   <script id="widget-meetup" type="text/x-handlebars-template">
     {{#each this}}
-      <h2><a href="{{event_url}}" target="_blank">{{name}}</a></h2>
+      <h3><a href="{{event_url}}" target="_blank"><u>{{name}}</u></a></h3>
       <p>{{{description}}}</p>
       {{#if fee.amount}}
       <p><strong>Fee:</strong> ${{fee.amount}}</p>
       {{else}}
       <p><strong>Fee:</strong> free</p>
       {{/if}}
+      <p><strong>Time:</strong> {{time}}</p>
       <p><strong>Organizer</strong> {{group.name}}</p>
       {{#if yes_rsvp_count}}
       <p><strong>Total Spots</strong> {{yes_rsvp_count}}
@@ -93,19 +113,19 @@
       {{else}}
       <p><strong>Address:</strong> Unknown</p>
       {{/if}}
-      <hr>
+      <hr><hr>
     {{/each}}
     <br> <br>
   </script>
 
   <script id="widget-courses" type="text/x-handlebars-template">
     {{#each this}}
-    <h2><a href={{homepage}} target="_blank">{{title}}</a></h2>
+    <h3><a href={{homepage}} target="_blank"><u>{{title}}</u></a></h3>
     <strong>{{subtitle}}</strong>
     <p>{{short_summary}}</p>
     <p>Level: {{level}}</p>
     <img src={{image}}>
-    <hr>
+    <hr><hr>
     {{/each}}
   </script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
